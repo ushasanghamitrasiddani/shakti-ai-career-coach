@@ -3,16 +3,20 @@ from dotenv import load_dotenv
 import google.generativeai as genai
 from prompts.master_prompt import build_master_prompt
 
-# Load environment variables
+import streamlit as st
+
+# Load environment variables (for local development)
 load_dotenv()
 
-# Read API Key
-api_key = os.getenv("GEMINI_API_KEY")
-
+# Read API key
+try:
+    api_key = st.secrets["GOOGLE_API_KEY"]
+except Exception:
+    api_key = os.getenv("GEMINI_API_KEY")
 # Configure Gemini
 genai.configure(api_key=api_key)
 
-# Load the model
+# Create the model
 model = genai.GenerativeModel("gemini-2.5-flash")
 
 
